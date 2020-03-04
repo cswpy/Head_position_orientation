@@ -10,6 +10,7 @@ from multiprocessing import Process, Queue
 
 import cv2
 import numpy as np
+import threading
 
 from mark_detector import MarkDetector
 from os_detector import detect_os
@@ -60,9 +61,8 @@ def main():
     img_queue = Queue()
     box_queue = Queue()
     img_queue.put(sample_frame)
-    box_process = Process(target=get_face, args=(
-        mark_detector, img_queue, box_queue,))
-    box_process.start()
+    thread = threading.Thread(target=get_face, args=(mark_detector, img_queue, box_queue),daemon=True)
+    thread.start()
 
     # Introduce pose estimator to solve pose. Get one frame to setup the
     # estimator according to the image size.

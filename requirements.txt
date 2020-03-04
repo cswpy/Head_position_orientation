@@ -1,0 +1,2 @@
+tensorflow 
+opencv >= 3.3
